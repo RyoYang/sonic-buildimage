@@ -147,13 +147,13 @@ RUN git clone https://github.com/lguohan/gnxi.git \
     && pip install -r requirements.txt
 
 COPY \
-{% for deb in docker_ptf_debs.split(' ') -%}
+{% for deb in docker_ptf_brcm_debs.split(' ') -%}
 debs/{{ deb }}{{' '}}
 {%- endfor -%}
 debs/
 
 RUN dpkg -i \
-{% for deb in docker_ptf_debs.split(' ') -%}
+{% for deb in docker_ptf_brcm_debs.split(' ') -%}
 debs/{{ deb }}{{' '}}
 {%- endfor %}
 
