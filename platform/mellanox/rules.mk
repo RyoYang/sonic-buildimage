@@ -38,7 +38,8 @@ $(SYNCD)_DEPENDS += $(MLNX_SAI)
 $(SYNCD)_UNINSTALLS += $(MLNX_SAI)
 
 ifeq ($(ENABLE_SYNCD_RPC),y)
-$(SYNCD)_DEPENDS += $(LIBSAITHRIFT_DEV)
+$(SYNCD)_DEPENDS := $(filter-out $(LIBTHRIFT_DEV),$($(SYNCD)_DEPENDS))
+$(SYNCD)_DEPENDS += $(LIBSAITHRIFT_DEV) $(LIBTHRIFT_0_13_0_DEV)
 endif
 
 # Runtime dependency on mlnx sai is set only for syncd
