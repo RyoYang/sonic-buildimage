@@ -23,6 +23,7 @@ include $(PLATFORM_PATH)/mlnx-platform-api.mk
 # include $(PLATFORM_PATH)/docker-syncd-mlnx.mk
 # include $(PLATFORM_PATH)/docker-syncd-mlnx-rpc.mk
 include $(PLATFORM_PATH)/docker-saiserver-mlnx.mk
+include $(PLATFORM_PATH)/docker-saiserverv2-mlnx.mk
 include $(PLATFORM_PATH)/one-image.mk
 include $(PLATFORM_PATH)/libsaithrift-dev.mk
 include $(PLATFORM_PATH)/mlnx-ffb.mk
@@ -38,8 +39,7 @@ $(SYNCD)_DEPENDS += $(MLNX_SAI)
 $(SYNCD)_UNINSTALLS += $(MLNX_SAI)
 
 ifeq ($(ENABLE_SYNCD_RPC),y)
-$(SYNCD)_DEPENDS := $(filter-out $(LIBTHRIFT_DEV),$($(SYNCD)_DEPENDS))
-$(SYNCD)_DEPENDS += $(LIBSAITHRIFT_DEV) $(LIBTHRIFT_0_13_0_DEV)
+$(SYNCD)_DEPENDS += $(LIBSAITHRIFT_DEV)
 endif
 
 # Runtime dependency on mlnx sai is set only for syncd

@@ -9,6 +9,7 @@ include $(PLATFORM_PATH)/mlnx-platform-api.dep
 include $(PLATFORM_PATH)/docker-syncd-mlnx.dep
 include $(PLATFORM_PATH)/docker-syncd-mlnx-rpc.dep
 include $(PLATFORM_PATH)/docker-saiserver-mlnx.dep
+include $(PLATFORM_PATH)/docker-saiserverv2-mlnx.dep
 include $(PLATFORM_PATH)/one-image.dep
 include $(PLATFORM_PATH)/libsaithrift-dev.dep
 include $(PLATFORM_PATH)/mlnx-ffb.dep
