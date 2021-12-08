@@ -26,6 +26,7 @@ include $(PLATFORM_PATH)/docker-saiserver-mlnx.mk
 include $(PLATFORM_PATH)/docker-saiserverv2-mlnx.mk
 include $(PLATFORM_PATH)/one-image.mk
 include $(PLATFORM_PATH)/libsaithrift-dev.mk
+include $(PLATFORM_PATH)/libsaithriftv2-dev.mk
 include $(PLATFORM_PATH)/mlnx-ffb.mk
 include $(PLATFORM_PATH)/issu-version.mk
 include $(PLATFORM_PATH)/mlnx-onie-fw-update.mk
