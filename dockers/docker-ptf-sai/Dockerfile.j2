@@ -1,0 +1,51 @@
+{% from "dockers/dockerfile-macros.j2" import install_debian_packages, install_python_wheels, copy_files %}
+FROM docker-ptf
+
+## Make apt-get non-interactive
+ENV DEBIAN_FRONTEND=noninteractive
+
+## Set global varible
+ENV SDE=/tmp/saitest
+ENV SDE_INSTALL=$SDE/install
+ENV PATH=$SDE_INSTALL/bin:$PATH
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+ENV PYTHONPATH=/usr/lib/python3.7/site-packages
+ENV PKTPY=False
+
+RUN mkdir $SDE
+RUN mkdir $SDE_INSTALL
+
+RUN git clone https://github.com/p4lang/ptf.git
+WORKDIR /tmp/ptf
+CMD usr/bin/python3 setup.py install --single-version-externally-managed --prefix=$SDE_INSTALL --record /tmp/ptf_install.txt
+
+## Set the apt source, update package cache and install necessary packages
+## TODO: Clean up this step
+RUN apt-get update              \
+    && apt-get upgrade -y       \
+    && apt-get dist-upgrade -y  \
+    && apt-get install -y       \
+    python3-pip             
+
+RUN pip3 install crc16          \
+        netifaces               \
+        getmac                  \
+        packet_helper           \
+        psutil                  \
+        scapy==2.4.4            \
+        scapy_helper            \
+        pysubnettree
+
+COPY \
+{% for deb in docker_ptf_sai_debs.split(' ') -%}
+debs/{{ deb }}{{' '}}
+{%- endfor -%} 
+debs/
+
+RUN dpkg -i \
+{% for deb in docker_ptf_sai_debs.split(' ') -%}
+debs/{{ deb }}{{' '}}
+{%- endfor %}
+
+ENTRYPOINT ["/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
