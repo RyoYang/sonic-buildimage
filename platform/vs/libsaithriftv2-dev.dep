@@ -1,0 +1,13 @@
+#DPKG FRK
+SPATH       := $($(LIBSAITHRIFTV2_DEV)_SRC_PATH)
+DEP_FILES   := $(SONIC_COMMON_FILES_LIST) platform/vs/libsaithriftv2-dev.mk platform/vs/libsaithriftv2-dev.dep
+DEP_FILES   += $(SONIC_COMMON_BASE_FILES_LIST)
+SMDEP_PATHS := $(SPATH) $(addprefix $(SPATH)/,$(shell cd $(SPATH) && git submodule status --recursive | awk '{print $$2}' | grep -Ev ' '))
+$(foreach path, $(SMDEP_PATHS), $(eval $(path) :=$(filter-out $(SMDEP_PATHS),$(addprefix $(path)/, $(shell cd $(path) &&  git ls-files | grep -Ev " " )))))
+
+$(LIBSAITHRIFTV2_DEV)_CACHE_MODE  := GIT_CONTENT_SHA
+$(LIBSAITHRIFTV2_DEV)_DEP_FLAGS   := $(SONIC_COMMON_FLAGS_LIST)
+$(LIBSAITHRIFTV2_DEV)_DEP_FILES   := $(DEP_FILES)
+$(LIBSAITHRIFTV2_DEV)_SMDEP_FILES := $(foreach path, $(SMDEP_PATHS), $($(path)))
+$(LIBSAITHRIFTV2_DEV)_SMDEP_PATHS := $(SMDEP_PATHS)
+
